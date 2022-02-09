@@ -7,6 +7,11 @@ instana({
     }
 });
 
+// enable tracing using opentelemetry
+const { init } = require('./tracer')
+const api = require('@opentelemetry/api')
+init('cart', 'development')
+
 const redis = require('redis');
 const request = require('request');
 const bodyParser = require('body-parser');
