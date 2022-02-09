@@ -2,6 +2,15 @@
 
 The easiest way to install the Instana agent is with the helm [chart](https://hub.helm.sh/charts/stable/instana-agent). If you really want to do it by hand, template descriptors are available in the official [documentation](https://docs.instana.io/ecosystem/kubernetes/).
 
+# Jaeger operator installation
+
+If you are using opentelemetry tracing along with jaeger exporter. Install the jaeger operator to manager the agent sidecars to collect traces and send it to appropriate dashboard for your choice for example jaeger UI or Wavefront by Vmware.
+ 
+ ```shell
+ kubectl create namespace observability
+ kubectl create -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.30.0/jaeger-operator.yaml -n observability
+ ```
+
 # Stan's Robot Shop Install
 
 Install Stan's Robot Shop on to your K8s cluster using the helm chart, see the [README](helm/README.md) for details of the various options.
