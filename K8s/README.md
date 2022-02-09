@@ -4,7 +4,7 @@ The easiest way to install the Instana agent is with the helm [chart](https://hu
 
 # Jaeger operator installation
 
-If you are using opentelemetry tracing along with jaeger exporter. Install the jaeger operator to manager the agent sidecars to collect traces and send it to appropriate dashboard for your choice for example jaeger UI or Wavefront by Vmware.
+If you are using opentelemetry tracing along with jaeger exporter. Install the jaeger operator to manager the agent sidecars to collect traces and send it to appropriate dashboard of your choice for example jaeger UI or Wavefront by Vmware.
  
  ```shell
  kubectl create namespace observability
