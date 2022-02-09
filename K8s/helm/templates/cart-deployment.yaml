@@ -19,7 +19,8 @@ spec:
       {{ end }}
       containers:
       - name: cart
-        image: {{ .Values.image.repo }}/rs-cart:{{ .Values.image.version }}
+        image: mitultan/cart:v2
+        #image: {{ .Values.image.repo }}/rs-cart:{{ .Values.image.version }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # agent networking access
         env:
@@ -27,6 +28,12 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
+#           - name: JAEGER_AGENT_HOST # if jaeger agent deployed as daemon set uncomment this and comment line 35 & 36
+#             valueFrom:
+#               fieldRef:
+#                 fieldPath: status.hostIP
+          - name: JAEGER_AGENT_HOST
+            value: 'localhost' # if jaeger agent deployed as sidecar (as in this case)
         ports:
         - containerPort: 8080
         resources:
@@ -36,3 +43,27 @@ spec:
           requests:
             cpu: 100m
             memory: 50Mi
+      # sidecar agent
+      - name: jaeger-agent
+        image: jaegertracing/jaeger-agent:1.30.0
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 5775
+            name: zk-compact-trft
+            protocol: UDP
+          - containerPort: 5778
+            name: config-rest
+            protocol: TCP
+          - containerPort: 6831
+            name: jg-compact-trft
+            protocol: UDP
+          - containerPort: 6832
+            name: jg-binary-trft
+            protocol: UDP
+          - containerPort: 14271
+            name: admin-http
+            protocol: TCP
+        args:
+          #- --reporter.grpc.host-port=dns:///jaeger-collector-headless.observability:14250
+          - --reporter.type=grpc
+          - --reporter.grpc.host-port=wavefront-proxy.default:14250 # sending data to wavefront UI using a proxy 
