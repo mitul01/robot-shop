@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14-alpine
 
 ENV INSTANA_AUTO_PROFILE true
 ENV JAEGER_TRACE_HOST localhost
